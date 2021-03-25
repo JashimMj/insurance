@@ -1,0 +1,74 @@
+{%extends 'index.html'%}
+{%block contant%}
+<header class="page-header">
+    <div class="container-fluid">
+        <h2 class="no-margin-bottom">Create User</h2>
+    </div>
+</header>
+
+{%for x in messages%}
+                            <div class="alert alert-danger" role="alert">
+                                {{x}}
+                            </div>
+                            {%endfor%}
+<section class="dashboard-counts no-padding-bottom">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-close">
+                <div class="dropdown">
+                    <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                    <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
+                                                                                                              class="dropdown-item remove">
+                        <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i
+                            class="fa fa-gear"></i>Edit</a></div>
+                </div>
+            </div>
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">Create user Form</h3>
+            </div>
+            <div class="card-body">
+                <form action="{%url 'createuser'%}" method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <div class="form-group">
+                        <label class="form-control-label">User Name</label>
+                        <input type="text" placeholder="User Name" class="form-control" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">User Phone</label>
+                        <input type="text" placeholder="User Phone" class="form-control" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">User Email</label>
+                        <input type="email" placeholder="User Email" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Present Address</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="present"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea2">Permanant Address</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" name="permanent"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Password</label>
+                        <input type="password" placeholder="Password" class="form-control" name="password1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Confirmation Password</label>
+                        <input type="password" placeholder="Confirmation Password" class="form-control" name="password2">
+                    </div>
+                    <div class="custom-file mycss">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="image">
+                        <label class="custom-file-label" for="inputGroupFile01" >Choose file</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Signin" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}
