@@ -28,30 +28,32 @@
                 <h3 class="h4">Supplier entry Form</h3>
             </div>
             <div class="card-body">
-                <form action="{%url 'supplierentrysave'%}" method="post" enctype="multipart/form-data">
+                {%for x in datasupply%}
+                <form action="{%url 'supplierentryupdate' x.id%}" method="post" enctype="multipart/form-data">
                     {%csrf_token%}
                     <div class="row">
                     <div class="form-group col-md-12">
                         <label class="form-control-label">Supplier Name</label>
-                        <input type="text" placeholder="Supplier Name" class="form-control" name="suppliername">
+                        <input type="text" placeholder="Supplier Name" class="form-control" name="suppliername" value="{{x.Suppliername}}">
                     </div>
                         <div class="form-group col-md-12">
                         <label class="form-control-label">Supplier Address</label>
-                            <textarea  placeholder="Supplier Address" class="form-control" name="address"></textarea>
+                            <textarea  placeholder="Supplier Address" class="form-control" name="address" >{{x.Address}}</textarea>
                     </div>
                         <div class="form-group col-md-12">
                         <label class="form-control-label">Supplier Phone</label>
-                        <input type="text" placeholder="Supplier Phone" class="form-control" name="phone">
+                        <input type="text" placeholder="Supplier Phone" class="form-control" name="phone" value="{{x.Phone}}">
                     </div>
                         <div class="form-group col-md-12">
                         <label class="form-control-label">Supplier Email</label>
-                        <input type="text" placeholder="Supplier Email" class="form-control" name="email">
+                        <input type="text" placeholder="Supplier Email" class="form-control" name="email" value="{{x.Email}}">
                     </div>
                         </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary">
+                        <input type="submit" value="Update" class="btn btn-primary">
                     </div>
                 </form>
+                {%endfor%}
             </div>
         </div>
     </div>
