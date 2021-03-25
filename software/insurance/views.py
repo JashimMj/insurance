@@ -75,7 +75,9 @@ def admindashboardV(request):
     return render(request,'admin/Dashboard.html')
 
 def inventorydashboardV(request):
-    return render(request,'inventory/Dashboard.html')
+    intem=ItemEntryM.objects.all().count()
+    supplier=SupplierInfoM.objects.all().count()
+    return render(request,'inventory/Dashboard.html',{'intem':intem,'supplier':supplier})
 
 def itemnameV(request):
     item=ItemEntryM.objects.all()
