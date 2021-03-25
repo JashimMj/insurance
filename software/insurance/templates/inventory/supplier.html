@@ -1,0 +1,103 @@
+{%extends 'index.html'%}
+{%block contant%}
+<header class="page-header">
+    <div class="container-fluid">
+        <h2 class="no-margin-bottom">Supplier Entry</h2>
+    </div>
+</header>
+
+{%for x in messages%}
+<div class="alert alert-danger" role="alert">
+    {{x}}
+</div>
+{%endfor%}
+<section class="dashboard-counts no-padding-bottom">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-close">
+                <div class="dropdown">
+                    <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                    <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
+                                                                                                              class="dropdown-item remove">
+                        <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i
+                            class="fa fa-gear"></i>Edit</a></div>
+                </div>
+            </div>
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">Supplier entry Form</h3>
+            </div>
+            <div class="card-body">
+                <form action="{%url 'supplierentrysave'%}" method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label">Supplier Name</label>
+                        <input type="text" placeholder="Supplier Name" class="form-control" name="suppliername">
+                    </div>
+                        <div class="form-group col-md-12">
+                        <label class="form-control-label">Supplier Address</label>
+                            <textarea  placeholder="Supplier Address" class="form-control" name="address"></textarea>
+                    </div>
+                        <div class="form-group col-md-12">
+                        <label class="form-control-label">Supplier Phone</label>
+                        <input type="text" placeholder="Supplier Phone" class="form-control" name="phone">
+                    </div>
+                        <div class="form-group col-md-12">
+                        <label class="form-control-label">Supplier Email</label>
+                        <input type="text" placeholder="Supplier Email" class="form-control" name="email">
+                    </div>
+                        </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-counts no-padding-bottom">
+<div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard2" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Item Table</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Product Name</th>
+                              <th>Unit name</th>
+                              <th></th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {%for x in item%}
+                            <tr>
+                              <th scope="row">{{forloop.counter}}</th>
+                              <td>{{x.Itemname}}</td>
+                              <td>{{x.Unit}}</td>
+                              <td><a href="{%url 'itementryedit' x.id%}" class="btn btn-primary">Edit</a></td>
+                              <td><a href="{%url 'itementrydelete' x.id%}" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                          {%endfor%}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+</section>
+
+{%endblock%}

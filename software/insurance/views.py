@@ -118,3 +118,25 @@ def itemnamedeleteV(request,id=0):
     return redirect('/item/entry/')
 
 
+def suppliernameV(request):
+    return render(request,'inventory/supplier.html')
+
+def suppliernameSaveV(request):
+    if request.method=='POST':
+        name=request.POST.get('suppliername')
+        address=request.POST.get('address')
+        phone=request.POST.get('phone')
+        email=request.POST.get('email')
+        datasave=SupplierInfoM.objects.create(Suppliername=name,Address=address,Phone=phone,Email=email)
+        messages.info(request, 'Data Save')
+    return redirect('/upplier/entry/')
+
+def suppliernameeditV(request):
+    pass
+
+def suppliernameupdateV(request):
+    pass
+def suppliernamedeleteV(request):
+    pass
+
+
