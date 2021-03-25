@@ -81,8 +81,7 @@
                               <th>Supplier Address</th>
                               <th>Supplier Phone</th>
                               <th>Supplier Email</th>
-                              <th>Product Name</th>
-                              <th>Unit name</th>
+
                               <th></th>
                               <th></th>
                             </tr>
@@ -98,14 +97,6 @@
                               <td><a href="{%url 'supplierentryedit' x.id%}" class="btn btn-primary">Edit</a></td>
                               <td><a href="{%url 'supplierentrydelete' x.id%}" class="btn btn-danger">Delete</a></td>
 
-                            {%for x in item%}
-                            <tr>
-                              <th scope="row">{{forloop.counter}}</th>
-                              <td>{{x.Itemname}}</td>
-                              <td>{{x.Unit}}</td>
-                              <td><a href="{%url 'itementryedit' x.id%}" class="btn btn-primary">Edit</a></td>
-                              <td><a href="{%url 'itementrydelete' x.id%}" class="btn btn-danger">Delete</a></td>
-                            </tr>
                           {%endfor%}
                           </tbody>
                         </table>

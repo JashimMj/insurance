@@ -118,3 +118,53 @@ def itemnamedeleteV(request,id=0):
     return redirect('/item/entry/')
 
 
+def suppliernameV(request):
+    supplier=SupplierInfoM.objects.all()
+    return render(request,'inventory/supplier.html',{'supplier':supplier})
+
+
+def suppliernameSaveV(request):
+    if request.method=='POST':
+        name=request.POST.get('suppliername')
+        address=request.POST.get('address')
+        phone=request.POST.get('phone')
+        email=request.POST.get('email')
+
+        datasave=SupplierInfoM.objects.create(Suppliername=name,Address=address,Phone=phone,Email=email)
+    return redirect('/supplier/entry/')
+
+def suppliernameeditV(request,id=0):
+    supplier=SupplierInfoM.objects.all()
+    if id !=0:
+        datasupply=SupplierInfoM.objects.filter(pk=id)
+    return render(request, 'inventory/supplieredit.html',{'supplier':supplier,'datasupply':datasupply})
+
+def suppliernameupdateV(request,id=0):
+    if request.method=='POST':
+        if id !=0:
+            name = request.POST.get('suppliername')
+            address = request.POST.get('address')
+            phone = request.POST.get('phone')
+            email = request.POST.get('email')
+
+            dataupdate=SupplierInfoM.objects.get(pk=id)
+            dataupdate.Suppliername=name
+            dataupdate.Address=address
+            dataupdate.Phone=phone
+            dataupdate.Email=email
+            dataupdate.save()
+            messages.info(request,'Data Updated')
+    return redirect('/supplier/entry/')
+
+def suppliernamedeleteV(request, id=0):
+    if id !=0:
+        datadelete=SupplierInfoM.objects.get(pk=id)
+        datadelete.delete()
+        messages.info(request,'Data Delete')
+    return redirect('/supplier/entry/')
+
+
+
+
+
+
