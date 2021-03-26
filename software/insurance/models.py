@@ -30,3 +30,12 @@ class SupplierInfoM(models.Model):
     Email=models.EmailField(max_length=100,null=True,blank=True)
     objects=models.Manager()
 
+class EmployeesInformationM(models.Model):
+    Name=models.CharField(max_length=255,null=True,blank=True)
+    Designation=models.CharField(max_length=255,null=True,blank=True)
+    Depertment=models.CharField(max_length=255,null=True,blank=True)
+    Employees_id=models.CharField(max_length=255,null=True,blank=True)
+    Present_address=models.TextField(max_length=1500,null=True,blank=True)
+    Permanent_address=models.TextField(max_length=1500,null=True,blank=True)
+    Date_of_Birth=models.DateField(null=True,blank=True)
+
