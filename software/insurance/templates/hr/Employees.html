@@ -32,9 +32,9 @@
                     {%csrf_token%}
                     <div class="row">
                         {%for x in eidname%}
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" >
                             <label class="form-control-label">Employees ID</label>
-                            <input placeholder="Employees ID" class="form-control" name="eid" value="{{x.eid}}" disabled>
+                            <input type="text"  placeholder="Employees ID" class="form-control" name="eid" value="{{x.eid}}" >
                         </div>
                         {%endfor%}
                         <div class="form-group col-md-12">
@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Employees Date Of Birth</label>
-                            <input type="date" placeholder="Employees Date Of Birth" class="form-control" name="date">
+                            <input type="date" placeholder="Employees Date Of Birth" class="form-control" name="dates">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Present Address</label>
@@ -94,9 +94,8 @@
                 </div>
             </div>
             <div class="card-header d-flex align-items-center">
-                <h3 class="h4">Supplier Table</h3>
+                <h3 class="h4">Employees Table</h3>
 
-                <h3 class="h4">Item Table</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -104,23 +103,34 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Supplier Name</th>
-                            <th>Supplier Address</th>
-                            <th>Supplier Phone</th>
-                            <th>Supplier Email</th>
+                            <th>Employees ID</th>
+                            <th>Employees Name</th>
+                            <th>Employees Depertment</th>
+                            <th>Employees Designation</th>
+                            <th>Employees Date Of Birth</th>
+                            <th>Employees Phone </th>
+                            <th>Employees Email </th>
+                            <th>Employees Present Address </th>
+                            <th>Employees Permanent Address </th>
+
 
                             <th></th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {%for x in supplier%}
+                        {%for x in employeesinfo%}
                         <tr>
                             <th scope="row">{{forloop.counter}}</th>
-                            <td>{{x.Suppliername}}</td>
-                            <td>{{x.Address}}</td>
+                            <td>{{x.Employees_id}}</td>
+                            <td>{{x.Name}}</td>
+                            <td>{{x.Depertment}}</td>
+                            <td>{{x.Designation}}</td>
+                            <td>{{x.Date_of_Birth}}</td>
                             <td>{{x.Phone}}</td>
                             <td>{{x.Email}}</td>
+                            <td>{{x.Present_address}}</td>
+                            <td>{{x.Permanent_address}}</td>
                             <td><a href="{%url 'supplierentryedit' x.id%}" class="btn btn-primary">Edit</a></td>
                             <td><a href="{%url 'supplierentrydelete' x.id%}" class="btn btn-danger">Delete</a></td>
 

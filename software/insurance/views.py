@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import auth,messages
 from django.core.files.storage import FileSystemStorage
 from .models import *
+import datetime
 
 # Create your views here.
 
@@ -170,7 +171,8 @@ def hrdashboardV(request):
 
 def hrnameV(request):
     eidname=EmployeesInformationM.objects.raw('select id,count(Employees_id)+1 as eid from insurance_employeesinformationm')
-    return render(request,'hr/Employees.html',{'eidname':eidname})
+    employeesinfo=EmployeesInformationM.objects.all()
+    return render(request,'hr/Employees.html',{'eidname':eidname,'employeesinfo':employeesinfo})
 
 def hrnameSaveV(request):
     if request.method=='POST':
@@ -182,13 +184,18 @@ def hrnameSaveV(request):
         email=request.POST.get('email')
         paddress=request.POST.get('paddress')
         peraddress=request.POST.get('peraddress')
-        date=request.POST.get('date')
+        dates=request.POST.get('dates')
+
+        if not dates:
+            da=None
+        else:
+            da=datetime.datetime.strptime(dates, '%Y-%m-%d')
 
         datasave=EmployeesInformationM.objects.create(Name=name,Designation=designation,Depertment=depertment,
                                                       Employees_id=eid,Present_address=paddress,
-                                                      Permanent_address=peraddress,Date_of_Birth=date,Phone=phone,
+                                                      Permanent_address=peraddress,Date_of_Birth=da,Phone=phone,
                                                       Email=email)
-    return redirect('hr/entry/')
+    return redirect('/hr/entry/')
 
 
 
