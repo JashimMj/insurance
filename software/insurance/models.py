@@ -39,6 +39,6 @@ class EmployeesInformationM(models.Model):
     Permanent_address=models.TextField(max_length=1500,null=True,blank=True)
     Date_of_Birth=models.DateField(null=True,blank=True)
     Phone=models.CharField(max_length=50,null=True,blank=True)
-    Email=models.CharField(max_length=50,null=True,blank=True)
+    Email=models.EmailField(max_length=50,null=True,blank=True)
     objects = models.Manager()
 

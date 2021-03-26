@@ -32,6 +32,10 @@
                     {%csrf_token%}
                     <div class="row">
                         <div class="form-group col-md-12">
+                            <label class="form-control-label">Employees ID</label>
+                            <textarea placeholder="Employees ID" class="form-control" name="eid"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
                             <label class="form-control-label">Employees Name</label>
                             <input type="text" placeholder="Employees Name" class="form-control" name="name">
                         </div>
@@ -43,17 +47,22 @@
                             <label class="form-control-label">Employees Designation</label>
                             <input type="text" placeholder="Employees Designation" class="form-control" name="designation">
                         </div>
+
                         <div class="form-group col-md-12">
-                            <label class="form-control-label">Employees ID</label>
-                            <textarea placeholder="Employees ID" class="form-control" name="eid"></textarea>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label class="form-control-label">Supplier Phone</label>
+                            <label class="form-control-label">Employees Phone</label>
                             <input type="text" placeholder="Supplier Phone" class="form-control" name="phone">
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-control-label">Supplier Email</label>
+                            <label class="form-control-label">Employees Email</label>
                             <input type="text" placeholder="Supplier Email" class="form-control" name="email">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-control-label">Present Address</label>
+                            <textarea placeholder="Present Address" class="form-control" name="paddress"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-control-label">Permanent Address</label>
+                            <textarea placeholder="Permanent Address" class="form-control" name="peraddress"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
