@@ -31,10 +31,12 @@
                 <form action="{%url 'hrentrysave'%}" method="post" enctype="multipart/form-data">
                     {%csrf_token%}
                     <div class="row">
+                        {%for x in eidname%}
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Employees ID</label>
-                            <textarea placeholder="Employees ID" class="form-control" name="eid"></textarea>
+                            <input placeholder="Employees ID" class="form-control" name="eid" value="{{x.eid}}" disabled>
                         </div>
+                        {%endfor%}
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Employees Name</label>
                             <input type="text" placeholder="Employees Name" class="form-control" name="name">
@@ -50,11 +52,15 @@
 
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Employees Phone</label>
-                            <input type="text" placeholder="Supplier Phone" class="form-control" name="phone">
+                            <input type="text" placeholder="Employees Phone" class="form-control" name="phone">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Employees Email</label>
-                            <input type="text" placeholder="Supplier Email" class="form-control" name="email">
+                            <input type="text" placeholder="Employees Email" class="form-control" name="email">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-control-label">Employees Date Of Birth</label>
+                            <input type="date" placeholder="Employees Date Of Birth" class="form-control" name="date">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Present Address</label>

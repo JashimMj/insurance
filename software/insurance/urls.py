@@ -25,8 +25,8 @@ urlpatterns = [
     path('supplier/entry/update/<int:id>/', views.suppliernameupdateV,name='supplierentryupdate'),
     path('supplier/entry/delete/<int:id>/', views.suppliernamedeleteV,name='supplierentrydelete'),
     ############ HR Information #############################
-    # path('hr/entry/', views.hrnameV, name='hrrentry'),
-    # path('hr/entry/save/', views.hrnameSaveV, name='hrentrysave'),
+    path('hr/entry/', views.hrnameV, name='hrrentry'),
+    path('hr/entry/save/', views.hrnameSaveV, name='hrentrysave'),
     # path('hr/entry/edit/<int:id>/', views.hrnameeditV, name='hrentryedit'),
     # path('hr/entry/update/<int:id>/', views.hrnameupdateV, name='hrentryupdate'),
     # path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrrentrydelete'),

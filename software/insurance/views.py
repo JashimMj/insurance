@@ -168,4 +168,27 @@ def suppliernamedeleteV(request, id=0):
 def hrdashboardV(request):
     return render(request,'hr/dashboard.html')
 
+def hrnameV(request):
+    eidname=EmployeesInformationM.objects.raw('select id,count(Employees_id)+1 as eid from insurance_employeesinformationm')
+    return render(request,'hr/Employees.html',{'eidname':eidname})
+
+def hrnameSaveV(request):
+    if request.method=='POST':
+        name=request.POST.get('name')
+        designation=request.POST.get('designation')
+        depertment=request.POST.get('depertment')
+        eid=request.POST.get('eid')
+        phone=request.POST.get('phone')
+        email=request.POST.get('email')
+        paddress=request.POST.get('paddress')
+        peraddress=request.POST.get('peraddress')
+        date=request.POST.get('date')
+
+        datasave=EmployeesInformationM.objects.create(Name=name,Designation=designation,Depertment=depertment,
+                                                      Employees_id=eid,Present_address=paddress,
+                                                      Permanent_address=peraddress,Date_of_Birth=date,Phone=phone,
+                                                      Email=email)
+    return redirect('hr/entry/')
+
+
 
