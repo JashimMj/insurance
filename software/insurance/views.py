@@ -165,8 +165,7 @@ def suppliernamedeleteV(request, id=0):
         messages.info(request,'Data Delete')
     return redirect('/supplier/entry/')
 
-
-
-
+def hrdashboardV(request):
+    return render(request,'hr/dashboard.html')
 
 
