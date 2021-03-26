@@ -38,4 +38,5 @@ class EmployeesInformationM(models.Model):
     Present_address=models.TextField(max_length=1500,null=True,blank=True)
     Permanent_address=models.TextField(max_length=1500,null=True,blank=True)
     Date_of_Birth=models.DateField(null=True,blank=True)
+    objects = models.Manager()
 
