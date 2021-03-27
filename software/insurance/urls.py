@@ -32,7 +32,7 @@ urlpatterns = [
     path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrentrydelete'),
 ############ HR Information #############################
     path('purchange/entry/', views.purchangeV, name='purchangeentry'),
-    # path('hr/entry/save/', views.hrnameSaveV, name='hrentrysave'),
+    path('purchange/entry/save/', views.purchangeSaveV, name='purchangeentrysave'),
     # path('hr/entry/edit/<int:id>/', views.hrnameeditV, name='hrentryedit'),
     # path('hr/entry/update/<int:id>/', views.hrnameupdateV, name='hrentryupdate'),
     # path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrentrydelete'),

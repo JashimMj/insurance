@@ -2,7 +2,7 @@
 {%block contant%}
 <header class="page-header">
     <div class="container-fluid">
-        <h2 class="no-margin-bottom">Item Entry</h2>
+        <h2 class="no-margin-bottom">Purchage Entry</h2>
     </div>
 </header>
 
@@ -25,10 +25,10 @@
                 </div>
             </div>
             <div class="card-header d-flex align-items-center">
-                <h3 class="h4">Item entry Form</h3>
+                <h3 class="h4">Purchage entry Form</h3>
             </div>
             <div class="card-body">
-                <form action="{%url 'itementrysave'%}" method="post" enctype="multipart/form-data">
+                <form action="{%url 'purchangeentrysave'%}" method="POST" enctype="multipart/form-data">
                     {%csrf_token%}
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -40,9 +40,9 @@
                             <input type="text" placeholder="Purchange Invoice No" class="form-control" name="pno">
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="form-control-label">Unit Name</label>
+                            <label class="form-control-label">Supplier Name</label>
                             <div>
-                                <select class="custom-select" name="unit" required>
+                                <select class="custom-select" name="sname" required>
                                     <option value="">Select menu Unit Name</option>
                                     {%for x in suplier%}
                                     <option value="{{x.id}}">{{x.Suppliername}}</option>
@@ -51,17 +51,23 @@
                                 <div class="invalid-feedback">Example invalid custom select feedback</div>
                             </div>
                         </div>
+                        <div class="form-group col-md-6" id="vatd">
+                            <label class="form-control-label">Vat</label>
+                            <input type="text" placeholder="Vat" class="form-control" name="vat" id="vat">
+                        </div>
+                        <div class="form-group col-md-6" id="lessd">
+                            <label class="form-control-label">Price Less</label>
+                            <input type="text" placeholder="Price Less" class="form-control" name="less" id="less">
+                        </div>
                         <div class="form-group col-md-10"></div>
                         <div class="form-group col-md-2">
                             <button type="button" class="btn btn-outline-primary" id="add"><i
                                     class="fas fa-plus">Add</i></button>
                         </div>
-
-
-                        <div class="form-group col-md-4" id="sel">
+                        <div class="form-group col-md-6" id="sel">
                             <label class="form-control-label">Item Name</label>
                             <div id="otm">
-                                <select class="custom-select" name="unit" required>
+                                <select class="custom-select" name="item" required>
                                     <option value="">Select menu Unit Name</option>
                                     {%for x in item%}
                                     <option value="{{x.id}}">{{x.Itemname}}</option>
@@ -70,22 +76,15 @@
                                 <div class="invalid-feedback">Example invalid custom select feedback</div>
                             </div>
                         </div>
-                        <div class="form-group col-md-2" id="qtyd">
+                        <div class="form-group col-md-3" id="qtyd">
                             <label class="form-control-label">Quantity</label>
-                            <input type="text" placeholder="Quantity" class="form-control" name="uty" id="qty" >
+                            <input type="text" placeholder="Quantity" class="form-control" name="qty" id="qty">
                         </div>
-                        <div class="form-group col-md-2" id="upriced">
+                        <div class="form-group col-md-3" id="upriced">
                             <label class="form-control-label">Unit Price</label>
                             <input type="text" placeholder="Unit Price" class="form-control" name="uprice" id="uprice">
                         </div>
-                        <div class="form-group col-md-2" id="vatd">
-                            <label class="form-control-label">Vat</label>
-                            <input type="text" placeholder="Vat" class="form-control" name="vat" id="vat">
-                        </div>
-                        <div class="form-group col-md-2" id="lessd">
-                            <label class="form-control-label">Price Less</label>
-                            <input type="text" placeholder="Price Less" class="form-control" name="less" id="less">
-                        </div>
+
 
                     </div>
                     <div class="form-group">
@@ -111,7 +110,7 @@
                 </div>
             </div>
             <div class="card-header d-flex align-items-center">
-                <h3 class="h4">Item Table</h3>
+                <h3 class="h4">Purchage Table</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -149,10 +148,10 @@ $(document).ready(function(){
     $("#otm").clone().appendTo("#sel");
     $("#qty").clone().appendTo("#qtyd");
     $("#uprice").clone().appendTo("#upriced");
-    $("#vat").clone().appendTo("#vatd");
-    $("#less").clone().appendTo("#lessd");
+
   });
 });
+
 
 
 

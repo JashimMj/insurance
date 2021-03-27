@@ -250,6 +250,32 @@ def purchangeV(request):
     item=ItemEntryM.objects.all()
     return render(request,'inventory/purchage.html',{'suplier':suplier,'item':item})
 
+def purchangeSaveV(request):
+    if request.method=='POST':
+        date=request.POST.get('date')
+        d=datetime.datetime.strptime(date, '%Y-%m-%d')
+        pno=request.POST.get('pno')
+        sname=request.POST.get('sname')
+        vat=request.POST.get('vat') or 0
+        less=request.POST.get('less') or 0
+        item=request.POST.getlist('item')
+        qty=request.POST.getlist('qty')
+        uprice=request.POST.getlist('uprice')
+        supname=SupplierInfoM.objects.get(id=sname)
+
+        datasave = PurchageExtendM(Pdate=d, Invoice_no=pno,Supplier_name=supname, Vat=vat, Less=less)
+        datasave.save()
+        da=PurchageExtendM.objects.get(pk=datasave.id)
+        cd = min([len(item), len(qty), len(uprice)])
+        for i in range(cd):
+            data=PurchageInfoM(pex=da,Item_name=item[i],Quantity=qty[i],Rate=uprice[i])
+            data.save()
+
+        messages.info(request,'Data Save')
+    return redirect('/purchange/entry/')
+
+
+
 
 
 

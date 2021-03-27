@@ -42,20 +42,19 @@ class EmployeesInformationM(models.Model):
     Email=models.EmailField(max_length=50,null=True,blank=True)
     objects = models.Manager()
 
-class PurchageInfo(models.Model):
-    Pdate=models.DateField(null=True,blank=True)
-    Invoice_no=models.CharField(max_length=100,null=True,blank=True)
-    Supplier_name=models.ForeignKey(SupplierInfoM,on_delete=models.CASCADE,null=True,blank=True)
-    Item_name=models.ForeignKey(ItemEntryM,on_delete=models.CASCADE,null=True,blank=True)
+class PurchageExtendM(models.Model):
+    Pdate = models.DateField(null=True, blank=True)
+    Invoice_no = models.CharField(max_length=100, null=True, blank=True)
+    Supplier_name = models.ForeignKey(SupplierInfoM, on_delete=models.CASCADE, null=True, blank=True)
+    Vat = models.IntegerField(null=True, blank=True)
+    Less = models.IntegerField(null=True, blank=True)
+    objects = models.Manager()
+class PurchageInfoM(models.Model):
+    pex=models.ForeignKey(PurchageExtendM,on_delete=models.CASCADE,null=True,blank=True)
+    Item_name=models.CharField(max_length=255,null=True,blank=True)
     Quantity=models.IntegerField(null=True,blank=True)
-    Rate=models.IntegerField(null=True,blank=True)
-    Amount=models.IntegerField(null=True,blank=True)
-    Total=models.IntegerField(null=True,blank=True)
-    Vat=models.IntegerField(null=True,blank=True)
-    Sub_Total=models.IntegerField(null=True,blank=True)
-    Less=models.IntegerField(null=True,blank=True)
-    Grant_total=models.IntegerField(null=True,blank=True)
-    objests=models.Manager()
+    Rate=models.CharField(max_length=255,   null=True,blank=True)
+    objects=models.Manager()
 
 
 
