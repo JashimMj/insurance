@@ -195,7 +195,56 @@ def hrnameSaveV(request):
                                                       Employees_id=eid,Present_address=paddress,
                                                       Permanent_address=peraddress,Date_of_Birth=da,Phone=phone,
                                                       Email=email)
+        messages.info(request, 'Data Save')
     return redirect('/hr/entry/')
+
+def hrnameeditV(request,id=0):
+    employeesinfo = EmployeesInformationM.objects.all()
+    if id !=0:
+        dataget=EmployeesInformationM.objects.filter(pk=id)
+    return render(request,'hr/Employeesedit.html',{'dataget':dataget,'employeesinfo':employeesinfo})
+
+def hrnameupdateV(request,id=0):
+    employeesinfo = EmployeesInformationM.objects.all()
+    if request.method=='POST':
+        name = request.POST.get('name')
+        designation = request.POST.get('designation')
+        depertment = request.POST.get('depertment')
+        eid = request.POST.get('eid')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        paddress = request.POST.get('paddress')
+        peraddress = request.POST.get('peraddress')
+        dates = request.POST.get('dates')
+        if not dates:
+            da=None
+        else:
+            da=datetime.datetime.strptime(dates, '%Y-%m-%d')
+        dataupdate=EmployeesInformationM.objects.get(pk=id)
+        dataupdate.Employees_id=eid
+        dataupdate.Name=name
+        dataupdate.Designation=designation
+        dataupdate.Depertmant=depertment
+        dataupdate.Phone=phone
+        dataupdate.Email=email
+        dataupdate.Present_address=paddress
+        dataupdate.Permanent_address=peraddress
+        if not dates:
+            dataupdate.Date_of_Birth=None
+        else:
+            dataupdate.Date_of_Birth=datetime.datetime.strptime(dates, '%Y-%m-%d')
+        dataupdate.save()
+        messages.info(request, 'Data Update')
+
+    return redirect('/hr/entry/')
+
+def hrnamedeleteV(request,id=0):
+    if id !=0:
+        datadelete=EmployeesInformationM.objects.get(pk=id)
+        datadelete.delete()
+        messages.info(request, 'Data Delete')
+    return redirect('/hr/entry/')
+
 
 
 
