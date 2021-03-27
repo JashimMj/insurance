@@ -248,7 +248,9 @@ def hrnamedeleteV(request,id=0):
 def purchangeV(request):
     suplier=SupplierInfoM.objects.all()
     item=ItemEntryM.objects.all()
-    return render(request,'inventory/purchage.html',{'suplier':suplier,'item':item})
+    inv=PurchageExtendM.objects.raw('select id,count(less)+1 as invs from insurance_purchageextendm')
+
+    return render(request,'inventory/purchage.html',{'suplier':suplier,'item':item,'inv':inv})
 
 def purchangeSaveV(request):
     if request.method=='POST':

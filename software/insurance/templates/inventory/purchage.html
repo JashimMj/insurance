@@ -35,10 +35,12 @@
                             <label class="form-control-label">Purchange Date</label>
                             <input type="date" placeholder="Purchange Date" class="form-control" name="date">
                         </div>
+                        {%for x in inv%}
                         <div class="form-group col-md-6">
                             <label class="form-control-label">Purchange Invoice No</label>
-                            <input type="text" placeholder="Purchange Invoice No" class="form-control" name="pno">
+                            <input type="text" placeholder="Purchange Invoice No" class="form-control" name="pno" value="{{x.invs}}">
                         </div>
+                        {%endfor%}
                         <div class="form-group col-md-12">
                             <label class="form-control-label">Supplier Name</label>
                             <div>
