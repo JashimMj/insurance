@@ -245,6 +245,11 @@ def hrnamedeleteV(request,id=0):
         messages.info(request, 'Data Delete')
     return redirect('/hr/entry/')
 
+def purchangeV(request):
+    suplier=SupplierInfoM.objects.all()
+    item=ItemEntryM.objects.all()
+    return render(request,'inventory/purchage.html',{'suplier':suplier,'item':item})
+
 
 
 
