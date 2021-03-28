@@ -49,6 +49,7 @@ class PurchageExtendM(models.Model):
     Vat = models.IntegerField(null=True, blank=True)
     Less = models.IntegerField(null=True, blank=True)
     objects = models.Manager()
+
 class PurchageInfoM(models.Model):
     pex=models.ForeignKey(PurchageExtendM,on_delete=models.CASCADE,null=True,blank=True)
     Item_name=models.CharField(max_length=255,null=True,blank=True)

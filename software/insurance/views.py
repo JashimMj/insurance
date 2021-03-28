@@ -3,6 +3,8 @@ from django.contrib import auth,messages
 from django.core.files.storage import FileSystemStorage
 from .models import *
 import datetime
+from django.db.models import Subquery,Sum,F
+
 
 # Create your views here.
 
@@ -249,8 +251,15 @@ def purchangeV(request):
     suplier=SupplierInfoM.objects.all()
     item=ItemEntryM.objects.all()
     inv=PurchageExtendM.objects.raw('select id,count(less)+1 as invs from insurance_purchageextendm')
+    purx=PurchageExtendM.objects.filter(Invoice_no=3)
+    p=PurchageInfoM.objects.raw('SELECT a.id,a.Item_name,a.Quantity,a.Rate,(a.Quantity*a.Rate) as Total from insurance_purchageinfom as a, insurance_purchageextendm as b'
+                                ' where a.pex_id=b.id and Invoice_no=%s',[3])
+    sumation=PurchageInfoM.objects.raw('SELECT a.id,sum(a.Quantity) as sumQuantity,sum(a.Quantity*a.Rate) as sTotal,sum(b.vat)as vat,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 as subtotal,sum(b.less) as less,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 - sum(b.less) as Grant_total from insurance_purchageinfom as a, insurance_purchageextendm as b'
+                                        ' where a.pex_id=b.id and Invoice_no=%s',[3])
 
-    return render(request,'inventory/purchage.html',{'suplier':suplier,'item':item,'inv':inv})
+
+
+    return render(request,'inventory/purchage.html',{'suplier':suplier,'item':item,'inv':inv,'purx':purx,'p':p,'sumation':sumation})
 
 def purchangeSaveV(request):
     if request.method=='POST':

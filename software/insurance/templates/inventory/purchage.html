@@ -38,7 +38,8 @@
                         {%for x in inv%}
                         <div class="form-group col-md-6">
                             <label class="form-control-label">Purchange Invoice No</label>
-                            <input type="text" placeholder="Purchange Invoice No" class="form-control" name="pno" value="{{x.invs}}">
+                            <input type="text" placeholder="Purchange Invoice No" class="form-control" name="pno"
+                                   value="{{x.invs}}">
                         </div>
                         {%endfor%}
                         <div class="form-group col-md-12">
@@ -72,7 +73,7 @@
                                 <select class="custom-select" name="item" required>
                                     <option value="">Select menu Unit Name</option>
                                     {%for x in item%}
-                                    <option value="{{x.id}}">{{x.Itemname}}</option>
+                                    <option value="{{x.Itemname}}">{{x.Itemname}}</option>
                                     {%endfor%}
                                 </select>
                                 <div class="invalid-feedback">Example invalid custom select feedback</div>
@@ -116,28 +117,70 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Product Name</th>
-                            <th>Unit name</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {%for x in item%}
-                        <tr>
-                            <th scope="row">{{forloop.counter}}</th>
-                            <td>{{x.Itemname}}</td>
-                            <td>{{x.Unit}}</td>
-                            <td><a href="{%url 'itementryedit' x.id%}" class="btn btn-primary">Edit</a></td>
-                            <td><a href="{%url 'itementrydelete' x.id%}" class="btn btn-danger">Delete</a></td>
-                        </tr>
+                    <div class="container">
+                    <div class="row hed">
+
+                        {%for x in purx%}
+                        <div class="col-md-4">
+                            <p><b>Purchage Date:</b> {{x.Pdate}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><b>Supplier Name:</b> {{x.Supplier_name.Suppliername}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><b>Invoice No:</b> {{x.Invoice_no}}</p>
+                        </div>
+                    </div>
+                    </div>
                         {%endfor%}
-                        </tbody>
-                    </table>
+                    <div class="container">
+                        <div class="row head">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 co"><b>#</b></div>
+                        <div class="col-md-2 co"><b>Item Name</b></div>
+                        <div class="col-md-2 co"><b>Quantity</b></div>
+                        <div class="col-md-2 co"><b>Unit Price</b></div>
+                        <div class="col-md-2 co"><b>Total</b></div>
+
+                        {%for x in p%}
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2 co">{{forloop.counter}}</div>
+                        <div class="col-md-2 co">{{x.Item_name}}</div>
+                        <div class="col-md-2 co">{{x.Quantity}}</div>
+                        <div class="col-md-2 co">{{x.Rate}}</div>
+                        <div class="col-md-2 co">{{x.Total}}</div>
+                         {%endfor%}
+
+                        {%for x in sumation%}
+                        <div class="col-md-4"></div>
+                        <div class="col-md-2 co">Total</div>
+                        <div class="col-md-2 co">{{x.sumQuantity}}</div>
+                        <div class="col-md-2 "></div>
+                        <div class="col-md-2 co">{{x.sTotal}}</div>
+
+                        <div class="col-md-8"></div>
+                        <div class="col-md-2 co">Vat</div>
+                        <div class="col-md-2 co">{{x.vat}}</div>
+
+                        <div class="col-md-8"></div>
+                        <div class="col-md-2 co">Sub Total</div>
+                        <div class="col-md-2 co">{{x.subtotal}}</div>
+
+
+                        <div class="col-md-8"></div>
+                        <div class="col-md-2 co">Less</div>
+                        <div class="col-md-2 co">-{{x.less}}</div>
+
+
+                        <div class="col-md-8"></div>
+                        <div class="col-md-2 co">Grand Total</div>
+                        <div class="col-md-2 co">{{x.Grant_total}}</div>
+
+
+
+                         {%endfor%}
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -153,6 +196,7 @@ $(document).ready(function(){
 
   });
 });
+
 
 
 
