@@ -84,7 +84,8 @@ def admindashboardV(request):
 def inventorydashboardV(request):
     intem=ItemEntryM.objects.all().count()
     supplier=SupplierInfoM.objects.all().count()
-    return render(request,'inventory/Dashboard.html',{'intem':intem,'supplier':supplier})
+    purchage=PurchageExtendM.objects.all().count()
+    return render(request,'inventory/Dashboard.html',{'intem':intem,'supplier':supplier,'purchage':purchage})
 
 def itemnameV(request):
     item=ItemEntryM.objects.all()
@@ -298,8 +299,9 @@ def PurchagePDFV(request):
         'SELECT a.id,a.Item_name,a.Quantity,a.Rate,(a.Quantity*a.Rate) as Total from insurance_purchageinfom as a, insurance_purchageextendm as b'
         ' where a.pex_id=b.id and Invoice_no=%s', [invoice])
     sumation = PurchageInfoM.objects.raw(
-        'SELECT a.id,sum(a.Quantity) as sumQuantity,sum(a.Quantity*a.Rate) as sTotal,sum(b.vat)as vat,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 as subtotal,sum(b.less) as less,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 - sum(b.less) as Grant_total from insurance_purchageinfom as a, insurance_purchageextendm as b'
-        ' where a.pex_id=b.id and Invoice_no=%s', [invoice])
+        'SELECT a.id,sum(a.Quantity) as sumQuantity,sum(a.Quantity*a.Rate) as sTotal,b.vat as vat,(sum(a.Quantity*a.Rate)*(b.vat))/100 as vatamount,(sum(a.Quantity*a.Rate)-(sum(a.Quantity*a.Rate)*(b.vat))/100) as subtotal,b.less as less,(sum(a.Quantity*a.Rate)-((sum(a.Quantity*a.Rate)*(b.vat))/100)- b.less) as Grant_total from insurance_purchageinfom as a, insurance_purchageextendm as b'
+        ' where a.pex_id=b.id and Invoice_no=%s', [invoice]
+      )
 
     template_path = 'inventory/purchagepdf.html'
     context = {'purx':purx,'p':p,'sumation':sumation}
