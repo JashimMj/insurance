@@ -14,6 +14,23 @@
 <section class="dashboard-counts no-padding-bottom">
     <div class="col-lg-12">
         <div class="card">
+            <form action="{%url 'purchagepdf'%}" method="POST">
+                 {%csrf_token%}
+                <div class="row">
+                    <div class="form-group col-md-10">
+
+                        <input type="text" placeholder="Invoice No" class="form-control" name="invoiceno">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="submit" value="PDF" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="dashboard-counts no-padding-bottom">
+    <div class="col-lg-12">
+        <div class="card">
             <div class="card-close">
                 <div class="dropdown">
                     <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true"
@@ -92,6 +109,7 @@
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary">
+
                     </div>
                 </form>
             </div>
@@ -118,73 +136,70 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="container">
-                    <div class="row hed">
+                        <table class="headert">
 
-                        {%for x in purx%}
-                        <div class="col-md-4">
-                            <p><b>Purchage Date:</b> {{x.Pdate}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><b>Supplier Name:</b> {{x.Supplier_name.Suppliername}}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p><b>Invoice No:</b> {{x.Invoice_no}}</p>
-                        </div>
-                    </div>
-                    </div>
+                            {%for x in purx%}
+                            <tr>
+                                <th><b>Purchage Date:</b></th>
+                                <td>{{x.Pdate}}</td>
+                                <th><b>Supplier Name:</b></th>
+                                <td>{{x.Supplier_name.Suppliername}}</td>
+                                <th><b>Invoice No:</b></th>
+                                <td>{{x.Invoice_no}}</td>
+                            </tr>
+                        </table>
                         {%endfor%}
-                    <div class="container">
-                        <div class="row head">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-2 co"><b>#</b></div>
-                        <div class="col-md-2 co"><b>Item Name</b></div>
-                        <div class="col-md-2 co"><b>Quantity</b></div>
-                        <div class="col-md-2 co"><b>Unit Price</b></div>
-                        <div class="col-md-2 co"><b>Total</b></div>
+                        <table class="bodyst">
+                            <tr>
+                                <th>#</th>
+                                <th><b>Item Name</b></th>
+                                <th><b>Quantity</b></th>
+                                <th><b>Unit Price</b></th>
+                                <th><b>Total</b></th>
+                            </tr>
 
-                        {%for x in p%}
-                        <div class="col-md-2"></div>
-                        <div class="col-md-2 co">{{forloop.counter}}</div>
-                        <div class="col-md-2 co">{{x.Item_name}}</div>
-                        <div class="col-md-2 co">{{x.Quantity}}</div>
-                        <div class="col-md-2 co">{{x.Rate}}</div>
-                        <div class="col-md-2 co">{{x.Total}}</div>
-                         {%endfor%}
+                            {%for x in p%}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{x.Item_name}}</td>
+                                <td>{{x.Quantity}}</td>
+                                <td>{{x.Rate}}</td>
+                                <td>{{x.Total}}</td>
+                            </tr>
+                            {%endfor%}
+                            {%for x in sumation%}
+                            <tr>
+                                <td colspan="2">Total</td>
+                                <td>{{x.sumQuantity}}</td>
+                                <td></td>
+                                <td>{{x.sTotal}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">Vat</td>
+                                <td>{{x.vat}}%</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><b>Sub Total</b></td>
+                                <td><b>{{x.subtotal}}</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">Less</td>
+                                <td>-{{x.less}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><b>Grand Total</b></td>
+                                <td><b>{{x.Grant_total}}</b></td>
+                            </tr>
+                            {%endfor%}
+                        </table>
 
-                        {%for x in sumation%}
-                        <div class="col-md-4"></div>
-                        <div class="col-md-2 co">Total</div>
-                        <div class="col-md-2 co">{{x.sumQuantity}}</div>
-                        <div class="col-md-2 "></div>
-                        <div class="col-md-2 co">{{x.sTotal}}</div>
-
-                        <div class="col-md-8"></div>
-                        <div class="col-md-2 co">Vat</div>
-                        <div class="col-md-2 co">{{x.vat}}</div>
-
-                        <div class="col-md-8"></div>
-                        <div class="col-md-2 co">Sub Total</div>
-                        <div class="col-md-2 co">{{x.subtotal}}</div>
-
-
-                        <div class="col-md-8"></div>
-                        <div class="col-md-2 co">Less</div>
-                        <div class="col-md-2 co">-{{x.less}}</div>
-
-
-                        <div class="col-md-8"></div>
-                        <div class="col-md-2 co">Grand Total</div>
-                        <div class="col-md-2 co">{{x.Grant_total}}</div>
-
-
-
-                         {%endfor%}
                     </div>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+
 
 </section>
 <script>
@@ -196,6 +211,10 @@ $(document).ready(function(){
 
   });
 });
+
+
+
+
 
 
 

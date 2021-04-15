@@ -36,6 +36,8 @@ urlpatterns = [
     # path('hr/entry/edit/<int:id>/', views.hrnameeditV, name='hrentryedit'),
     # path('hr/entry/update/<int:id>/', views.hrnameupdateV, name='hrentryupdate'),
     # path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrentrydelete'),
+    path('Purchage/PDF/', views.PurchagePDFV, name='purchagepdf'),
+
 
 
 

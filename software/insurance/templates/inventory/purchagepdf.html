@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+{%load static%}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap Material Admin by Bootstrapious.com</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{%static 'template/vendor/bootstrap/css/bootstrap.min.css'%}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="{%static 'template/vendor/font-awesome/css/font-awesome.min.css'%}">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="{%static 'template/css/fontastic.css'%}">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{%static 'template/css/style.default.css'%}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{%static 'template/css/custom.css'%}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+          integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'my.css'%}">
+
+    <style>
+
+.headert {
+  border: 1px solid black;
+
+  margin:0px auto;
+}
+.headert th{
+border:None;
+padding:10px;
+}
+.headert td{
+border:None;
+
+}
+.bodyst,.bodyst th,.bodyst td{
+ border: 1px solid black;
+ margin:0px auto;
+padding-top:10px;
+ text-align:center;
+}
+.bodyst th{
+
+}
+
+
+    </style>
+</head>
+<body>
+<table class="headert">
+
+    {%for x in purx%}
+    <tr>
+        <th><b>Purchage Date:</b></th>
+        <td>{{x.Pdate}}</td>
+        <th><b>Supplier Name:</b></th>
+        <td>{{x.Supplier_name.Suppliername}}</td>
+        <th><b>Invoice No:</b></th>
+        <td>{{x.Invoice_no}}</td>
+    </tr>
+    {%endfor%}
+</table>
+
+<table class="bodyst">
+    <tr>
+        <th>#</th>
+        <th><b>Item Name</b></th>
+        <th><b>Quantity</b></th>
+        <th><b>Unit Price</b></th>
+        <th><b>Total</b></th>
+    </tr>
+
+    {%for x in p%}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{x.Item_name}}</td>
+        <td>{{x.Quantity}}</td>
+        <td>{{x.Rate}}</td>
+        <td>{{x.Total}}</td>
+    </tr>
+    {%endfor%}
+    {%for x in sumation%}
+    <tr>
+        <td colspan="2">Total</td>
+        <td>{{x.sumQuantity}}</td>
+        <td></td>
+        <td>{{x.sTotal}}</td>
+    </tr>
+    <tr>
+        <td colspan="4">Vat</td>
+        <td>{{x.vat}}%</td>
+    </tr>
+    <tr>
+        <td colspan="4"><b>Sub Total</b></td>
+        <td><b>{{x.subtotal}}</b></td>
+    </tr>
+    <tr>
+        <td colspan="4">Less</td>
+        <td>-{{x.less}}</td>
+    </tr>
+    <tr>
+        <td colspan="4"><b>Grand Total</b></td>
+        <td><b>{{x.Grant_total}}</b></td>
+    </tr>
+    {%endfor%}
+</table>
+
+
+<!-- JavaScript files-->
+<script src="{%static 'template/vendor/jquery/jquery.min.js'%}"></script>
+<script src="{%static 'template/vendor/popper.js/umd/popper.min.js'%}"></script>
+<script src="{%static 'template/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<script src="{%static 'template/vendor/jquery.cookie/jquery.cookie.js'%}"></script>
+<script src="{%static 'template/vendor/chart.js/Chart.min.js'%}"></script>
+<script src="{%static 'template/vendor/jquery-validation/jquery.validate.min.js'%}"></script>
+<script src="{%static 'template/js/charts-home.js'%}"></script>
+<!-- Main File-->
+<script src="{%static 'template/js/front.js'%}"></script>
+</body>
+</html>

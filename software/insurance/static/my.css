@@ -16,3 +16,24 @@ border: 1px solid;
 padding:10px;
 text-align:center;
 }
+
+.headert {
+  border: 1px solid black;
+  padding-left:10px;
+  margin:0px auto;
+}
+.headert th{
+padding:20px;
+}
+.headert td{
+padding-right:80px;
+}
+.bodyst,.bodyst th,.bodyst td{
+ border: 1px solid black;
+ margin:0px auto;
+ padding-left:10px;
+ text-align:center;
+}
+.bodyst th{
+padding:20px;
+}

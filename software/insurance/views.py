@@ -3,7 +3,11 @@ from django.contrib import auth,messages
 from django.core.files.storage import FileSystemStorage
 from .models import *
 import datetime
-from django.db.models import Subquery,Sum,F
+## PDF CODE ###
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 
 
 # Create your views here.
@@ -254,7 +258,7 @@ def purchangeV(request):
     purx=PurchageExtendM.objects.filter(Invoice_no=3)
     p=PurchageInfoM.objects.raw('SELECT a.id,a.Item_name,a.Quantity,a.Rate,(a.Quantity*a.Rate) as Total from insurance_purchageinfom as a, insurance_purchageextendm as b'
                                 ' where a.pex_id=b.id and Invoice_no=%s',[3])
-    sumation=PurchageInfoM.objects.raw('SELECT a.id,sum(a.Quantity) as sumQuantity,sum(a.Quantity*a.Rate) as sTotal,sum(b.vat)as vat,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 as subtotal,sum(b.less) as less,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 - sum(b.less) as Grant_total from insurance_purchageinfom as a, insurance_purchageextendm as b'
+    sumation=PurchageInfoM.objects.raw('SELECT a.id,sum(a.Quantity) as sumQuantity,sum(a.Quantity*a.Rate) as sTotal,sum(b.vat)as vat,sum(a.Quantity*a.Rate)-((sum(a.Quantity*a.Rate)*sum(b.vat))/100) as subtotal,sum(b.less) as less,sum(a.Quantity*a.Rate)-((sum(a.Quantity*a.Rate)*sum(b.vat))/100)- sum(b.less) as Grant_total from insurance_purchageinfom as a, insurance_purchageextendm as b'
                                         ' where a.pex_id=b.id and Invoice_no=%s',[3])
 
 
@@ -287,6 +291,32 @@ def purchangeSaveV(request):
 
 
 
+def PurchagePDFV(request):
+    invoice=request.POST.get('invoiceno')
+    purx = PurchageExtendM.objects.filter(Invoice_no=invoice)
+    p = PurchageInfoM.objects.raw(
+        'SELECT a.id,a.Item_name,a.Quantity,a.Rate,(a.Quantity*a.Rate) as Total from insurance_purchageinfom as a, insurance_purchageextendm as b'
+        ' where a.pex_id=b.id and Invoice_no=%s', [invoice])
+    sumation = PurchageInfoM.objects.raw(
+        'SELECT a.id,sum(a.Quantity) as sumQuantity,sum(a.Quantity*a.Rate) as sTotal,sum(b.vat)as vat,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 as subtotal,sum(b.less) as less,(sum(a.Quantity*a.Rate)*sum(b.vat))/100 - sum(b.less) as Grant_total from insurance_purchageinfom as a, insurance_purchageextendm as b'
+        ' where a.pex_id=b.id and Invoice_no=%s', [invoice])
 
+    template_path = 'inventory/purchagepdf.html'
+    context = {'purx':purx,'p':p,'sumation':sumation}
+    response = HttpResponse(content_type='application/pdf')
+    # for downlode
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = 'filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 
