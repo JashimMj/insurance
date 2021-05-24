@@ -33,10 +33,13 @@ urlpatterns = [
     ############ purchage Information #############################
     path('purchange/entry/', views.purchangeV, name='purchangeentry'),
     path('purchange/entry/save/', views.purchangeSaveV, name='purchangeentrysave'),
-    # path('hr/entry/edit/<int:id>/', views.hrnameeditV, name='hrentryedit'),
-    # path('hr/entry/update/<int:id>/', views.hrnameupdateV, name='hrentryupdate'),
+    path('purchange/entry/edit/', views.purchangeEditV, name='purchangeEdit'),
+    path('purchange/entry/edit/item/', views.purchangeEdititemV, name='purchangeEdititem'),
+    path('purchange/entry/update/', views.purchangeupdateV, name='purchangeupdate'),
     # path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrentrydelete'),
     path('Purchage/PDF/', views.PurchagePDFV, name='purchagepdf'),
+
+
     # ############ issue Information #############################
     # path('purchange/entry/', views.purchangeV, name='purchangeentry'),
     # path('purchange/entry/save/', views.purchangeSaveV, name='purchangeentrysave'),

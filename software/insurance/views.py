@@ -7,6 +7,7 @@ import datetime
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.db import connection
 
 
 
@@ -284,7 +285,7 @@ def purchangeSaveV(request):
         da=PurchageExtendM.objects.get(pk=datasave.id)
         cd = min([len(item), len(qty), len(uprice)])
         for i in range(cd):
-            data=PurchageInfoM(pex=da,Item_name=item[i],Quantity=qty[i],Rate=uprice[i])
+            data=PurchageInfoM(pex=da,Item_name=item[i],Quantity=qty[i],Rate=uprice[i],Invoice_nos=pno)
             data.save()
 
         messages.info(request,'Data Save')
@@ -321,4 +322,56 @@ def PurchagePDFV(request):
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+
+def purchangeEditV(request):
+    return render(request,'inventory/purchageedit.html')
+
+def purchangeEdititemV(request):
+    if request.method == 'POST':
+        abc = request.POST.get('invoiceno')
+        if abc:
+            dfc = PurchageInfoM.objects.raw('select DISTINCT a.id,a.pex_id,b.Pdate,b.Invoice_no,b.Vat,b.Less,b.Supplier_name_id from insurance_purchageinfom as a,insurance_purchageextendm as b'
+                                            ' where b.Invoice_no=%s GROUP by b.Invoice_no',[abc])
+            disc=PurchageInfoM.objects.raw('select DISTINCT a.id,a.Item_name,a.Quantity,a.Rate from insurance_purchageinfom as a,insurance_purchageextendm as b'
+                                            ' where b.Invoice_no=%s',[abc])
+            supplier = SupplierInfoM.objects.all()
+            return render(request, 'inventory/purchageedititem.html',{'dfc': dfc,'supplier':supplier,'disc':disc})
+    return render(request, 'inventory/purchageedititem.html')
+
+
+def purchangeupdateV(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        d = datetime.datetime.strptime(date, '%Y-%m-%d')
+        pno = request.POST.get('pno')
+        sname = request.POST.get('sname')
+        vat = request.POST.get('vat') or 0
+        less = request.POST.get('less') or 0
+        item = request.POST.getlist('item')
+        qty = request.POST.getlist('qty')
+        ids = request.POST.getlist('ids')
+        uprice = request.POST.getlist('uprice')
+        supname = SupplierInfoM.objects.get(id=sname)
+        cont=PurchageExtendM.objects.get(Invoice_no=pno)
+        datasave = PurchageExtendM.objects.get(pk=cont.id)
+        datasave.Pdate=date
+        datasave.Supplier_name=supname
+        datasave.Vat=vat
+        datasave.Less=less
+        datasave.save()
+        da = PurchageExtendM.objects.get(pk=datasave.id)
+        cd = min([len(item), len(qty), len(uprice), len(ids)])
+        for i in range(cd):
+            data=PurchageInfoM.objects.get(pk=ids[i])
+            data.Item_name=item[i]
+            data.Quantity=qty[i]
+            data.Rate=uprice[i]
+            data.Invoice_nos=pno
+            data.pex=da
+            data.save()
+
+
+
+            messages.info(request,'Data Save')
+    return redirect('/purchange/entry/edit/')
 

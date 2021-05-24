@@ -29,6 +29,8 @@ class SupplierInfoM(models.Model):
     Phone=models.CharField(max_length=100,null=True,blank=True)
     Email=models.EmailField(max_length=100,null=True,blank=True)
     objects=models.Manager()
+    def __str__(self):
+        return self.Suppliername
 
 class EmployeesInformationM(models.Model):
     Name=models.CharField(max_length=255,null=True,blank=True)
@@ -48,13 +50,14 @@ class PurchageExtendM(models.Model):
     Supplier_name = models.ForeignKey(SupplierInfoM, on_delete=models.CASCADE, null=True, blank=True)
     Vat = models.IntegerField(null=True, blank=True)
     Less = models.IntegerField(null=True, blank=True)
-    objects = models.Manager()
+    objects=models.Manager()
 
 class PurchageInfoM(models.Model):
     pex=models.ForeignKey(PurchageExtendM,on_delete=models.CASCADE,null=True,blank=True)
     Item_name=models.CharField(max_length=255,null=True,blank=True)
     Quantity=models.IntegerField(null=True,blank=True)
     Rate=models.CharField(max_length=255,   null=True,blank=True)
+    Invoice_nos = models.CharField(max_length=100, null=True, blank=True)
     objects=models.Manager()
 
 
