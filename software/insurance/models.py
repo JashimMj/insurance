@@ -60,5 +60,19 @@ class PurchageInfoM(models.Model):
     Invoice_nos = models.CharField(max_length=100, null=True, blank=True)
     objects=models.Manager()
 
+class IssueExtendM(models.Model):
+    Pdate = models.DateField(null=True, blank=True)
+    Invoice_no = models.CharField(max_length=100, null=True, blank=True)
+    issue_name = models.ForeignKey(EmployeesInformationM, on_delete=models.CASCADE, null=True, blank=True)
+
+    objects=models.Manager()
+
+class issueInfoM(models.Model):
+    pex=models.ForeignKey(IssueExtendM,on_delete=models.CASCADE,null=True,blank=True)
+    Item_name=models.CharField(max_length=255,null=True,blank=True)
+    Quantity=models.IntegerField(null=True,blank=True)
+    Invoice_nos = models.CharField(max_length=100, null=True, blank=True)
+    objects=models.Manager()
+
 
 

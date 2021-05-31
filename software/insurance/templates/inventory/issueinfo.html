@@ -2,7 +2,7 @@
 {%block contant%}
 <header class="page-header">
     <div class="container-fluid">
-        <h2 class="no-margin-bottom">Purchage Entry</h2>
+        <h2 class="no-margin-bottom">Issue Entry</h2>
     </div>
 </header>
 
@@ -14,7 +14,7 @@
 <section class="dashboard-counts no-padding-bottom">
     <div class="col-lg-12">
         <div class="card">
-            <form action="{%url 'purchagepdf'%}" method="POST">
+            <form action="{%url 'issuepdf'%}" method="POST" target="_blank">
                  {%csrf_token%}
                 <div class="row">
                     <div class="form-group col-md-10">
@@ -42,43 +42,36 @@
                 </div>
             </div>
             <div class="card-header d-flex align-items-center">
-                <h3 class="h4">Purchage entry Form</h3>
+                <h3 class="h4">Issue entry Form</h3>
             </div>
             <div class="card-body">
-                <form action="{%url 'purchangeentrysave'%}" method="POST" enctype="multipart/form-data">
+                <form action="{%url 'issuesave'%}" method="POST" enctype="multipart/form-data">
                     {%csrf_token%}
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="form-control-label">Purchange Date</label>
+                            <label class="form-control-label">Issue Date</label>
                             <input type="date" placeholder="Purchange Date" class="form-control" name="date">
                         </div>
                         {%for x in inv%}
                         <div class="form-group col-md-6">
-                            <label class="form-control-label">Purchange Invoice No</label>
+                            <label class="form-control-label">Issue Invoice No</label>
                             <input type="text" placeholder="Purchange Invoice No" class="form-control" name="pno"
-                                   value="{{x.invs}}">
+                                   value="{{x.invs}}" readonly>
                         </div>
                         {%endfor%}
                         <div class="form-group col-md-12">
-                            <label class="form-control-label">Supplier Name</label>
+                            <label class="form-control-label">Employees Name</label>
                             <div>
                                 <select class="custom-select" name="sname" required>
                                     <option value="">Select menu Unit Name</option>
-                                    {%for x in suplier%}
-                                    <option value="{{x.id}}">{{x.Suppliername}}</option>
+                                    {%for x in employees%}
+                                    <option value="{{x.id}}">{{x.Name}}</option>
                                     {%endfor%}
                                 </select>
                                 <div class="invalid-feedback">Example invalid custom select feedback</div>
                             </div>
                         </div>
-                        <div class="form-group col-md-6" id="vatd">
-                            <label class="form-control-label">Vat</label>
-                            <input type="text" placeholder="Vat" class="form-control" name="vat" id="vat">
-                        </div>
-                        <div class="form-group col-md-6" id="lessd">
-                            <label class="form-control-label">Price Less</label>
-                            <input type="text" placeholder="Price Less" class="form-control" name="less" id="less">
-                        </div>
+
                         <div class="form-group col-md-10"></div>
                         <div class="form-group col-md-2">
                             <button type="button" class="btn btn-outline-primary" id="add"><i
@@ -87,7 +80,7 @@
                         <div class="form-group col-md-6" id="sel">
                             <label class="form-control-label">Item Name</label>
                             <div id="otm">
-                                <select class="custom-select" name="item" required>
+                                <select class="custom-select" name="item" required id="kkjj">
                                     <option value="">Select menu Unit Name</option>
                                     {%for x in item%}
                                     <option value="{{x.Itemname}}">{{x.Itemname}}</option>
@@ -96,14 +89,14 @@
                                 <div class="invalid-feedback">Example invalid custom select feedback</div>
                             </div>
                         </div>
-                        <div class="form-group col-md-3" id="qtyd">
+                        <div class="form-group col-md-6" id="qtyd">
                             <label class="form-control-label">Quantity</label>
                             <input type="text" placeholder="Quantity" class="form-control" name="qty" id="qty">
                         </div>
-                        <div class="form-group col-md-3" id="upriced">
-                            <label class="form-control-label">Unit Price</label>
-                            <input type="text" placeholder="Unit Price" class="form-control" name="uprice" id="uprice">
-                        </div>
+<!--                        <div class="form-group col-md-3" id="upriced">-->
+<!--                            <label class="form-control-label">Unit Price</label>-->
+<!--                            <input type="text" placeholder="Unit Price" class="form-control" name="uprice" id="uprice">-->
+<!--                        </div>-->
 
 
                     </div>
@@ -117,91 +110,7 @@
     </div>
 </section>
 
-<section class="dashboard-counts no-padding-bottom">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-close">
-                <div class="dropdown">
-                    <button type="button" id="closeCard2" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                    <div aria-labelledby="closeCard2" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
-                                                                                                              class="dropdown-item remove">
-                        <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i
-                            class="fa fa-gear"></i>Edit</a></div>
-                </div>
-            </div>
-            <div class="card-header d-flex align-items-center">
-                <h3 class="h4">Purchage Table</h3>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <div class="container">
-                        <table class="headert">
 
-                            {%for x in purx%}
-                            <tr>
-                                <th><b>Purchage Date:</b></th>
-                                <td>{{x.Pdate}}</td>
-                                <th><b>Supplier Name:</b></th>
-                                <td>{{x.Supplier_name.Suppliername}}</td>
-                                <th><b>Invoice No:</b></th>
-                                <td>{{x.Invoice_no}}</td>
-                            </tr>
-                        </table>
-                        {%endfor%}
-                        <table class="bodyst">
-                            <tr>
-                                <th>#</th>
-                                <th><b>Item Name</b></th>
-                                <th><b>Quantity</b></th>
-                                <th><b>Unit Price</b></th>
-                                <th><b>Total</b></th>
-                            </tr>
-
-                            {%for x in p%}
-                            <tr>
-                                <td>{{forloop.counter}}</td>
-                                <td>{{x.Item_name}}</td>
-                                <td>{{x.Quantity}}</td>
-                                <td>{{x.Rate}}</td>
-                                <td>{{x.Total}}</td>
-                            </tr>
-                            {%endfor%}
-                            {%for x in sumation%}
-                            <tr>
-                                <td colspan="2">Total</td>
-                                <td>{{x.sumQuantity}}</td>
-                                <td></td>
-                                <td>{{x.sTotal}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">Vat</td>
-                                <td>{{x.vat}}%</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4"><b>Sub Total</b></td>
-                                <td><b>{{x.subtotal}}</b></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">Less</td>
-                                <td>-{{x.less}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4"><b>Grand Total</b></td>
-                                <td><b>{{x.Grant_total}}</b></td>
-                            </tr>
-                            {%endfor%}
-                        </table>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-</section>
 <script>
 $(document).ready(function(){
   $("#add").click(function(){
@@ -215,10 +124,8 @@ $(document).ready(function(){
 
 
 
-
-
-
-
-
 </script>
+
+
+
 {%endblock%}

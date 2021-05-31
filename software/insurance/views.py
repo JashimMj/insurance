@@ -3,6 +3,7 @@ from django.contrib import auth,messages
 from django.core.files.storage import FileSystemStorage
 from .models import *
 import datetime
+from django.http import JsonResponse
 ## PDF CODE ###
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -333,7 +334,7 @@ def purchangeEdititemV(request):
             dfc = PurchageInfoM.objects.raw('select DISTINCT a.id,a.pex_id,b.Pdate,b.Invoice_no,b.Vat,b.Less,b.Supplier_name_id from insurance_purchageinfom as a,insurance_purchageextendm as b'
                                             ' where b.Invoice_no=%s GROUP by b.Invoice_no',[abc])
             disc=PurchageInfoM.objects.raw('select DISTINCT a.id,a.Item_name,a.Quantity,a.Rate from insurance_purchageinfom as a,insurance_purchageextendm as b'
-                                            ' where b.Invoice_no=%s',[abc])
+                                            ' where a.Invoice_nos=%s',[abc])
             supplier = SupplierInfoM.objects.all()
             return render(request, 'inventory/purchageedititem.html',{'dfc': dfc,'supplier':supplier,'disc':disc})
     return render(request, 'inventory/purchageedititem.html')
@@ -370,8 +371,102 @@ def purchangeupdateV(request):
             data.pex=da
             data.save()
 
-
-
-            messages.info(request,'Data Save')
+        messages.info(request,'Data Update')
     return redirect('/purchange/entry/edit/')
 
+
+def purchangedeleteV(request,id=0):
+    if id !=0:
+        date = request.POST.get('date')
+        pno = request.POST.get('pno')
+        sname = request.POST.get('sname')
+        vat = request.POST.get('vat') or 0
+        less = request.POST.get('less') or 0
+        item = request.POST.getlist('item')
+        qty = request.POST.getlist('qty')
+        ids = request.POST.getlist('ids')
+        uprice = request.POST.getlist('uprice')
+        cont = PurchageExtendM.objects.get(Invoice_no=id)
+        datasave = PurchageExtendM.objects.get(pk=cont.id)
+        datasave.delete()
+
+        cd = min([len(item), len(qty), len(uprice), len(ids)])
+        for i in range(cd):
+            data = PurchageInfoM.objects.get(pk=ids[i])
+            data.delete()
+
+        messages.info(request,'Data Delete')
+    return redirect('/purchange/entry/edit/')
+
+
+def issueV(request):
+    item = ItemEntryM.objects.all()
+    inv=IssueExtendM.objects.raw('select id,count(id)+1 as invs from insurance_issueextendm')
+    employees = EmployeesInformationM.objects.all()
+    return render(request,'inventory/issueinfo.html',{'inv':inv,'employees':employees,'item':item})
+
+
+def IssueSaveV(request):
+    if request.method=='POST':
+        date=request.POST.get('date')
+        d=datetime.datetime.strptime(date, '%Y-%m-%d')
+        pno=request.POST.get('pno')
+        sname=request.POST.get('sname')
+        # vat=request.POST.get('vat') or 0
+        # less=request.POST.get('less') or 0
+        item=request.POST.getlist('item')
+        qty=request.POST.getlist('qty')
+        # uprice=request.POST.getlist('uprice')
+        supname=EmployeesInformationM.objects.get(id=sname)
+
+        datasave = IssueExtendM(Pdate=d, Invoice_no=pno,issue_name=supname)
+        datasave.save()
+        da=IssueExtendM.objects.get(pk=datasave.id)
+        cd = min([len(item), len(qty)])
+        for i in range(cd):
+            # abc=issueInfoM.objects.raw('select id,(sum(Quantity*rate)/sum(quantity)) as unitpriceav  from insurance_purchageinfom where Item_name=%',item[i])
+            data=issueInfoM(pex=da,Item_name=item[i],Quantity=qty[i],Invoice_nos=pno)
+            data.save()
+
+        messages.info(request,'Data Save')
+    return redirect('/issue/entry/')
+
+
+def issuePDFV(request):
+    invoice = request.POST.get('invoiceno')
+    purx = IssueExtendM.objects.filter(Invoice_no=invoice)
+    p = PurchageInfoM.objects.raw(
+        'SELECT a.id,a.Item_name,a.Quantity from insurance_issueinfom as a, insurance_issueextendm as b'
+        ' where a.pex_id=b.id and Invoice_no=%s', [invoice])
+    sumation = PurchageInfoM.objects.raw(
+        'SELECT a.id,sum(a.Quantity) as sumQuantity from insurance_issueinfom as a, insurance_issueextendm as b'
+        ' where a.pex_id=b.id and Invoice_no=%s', [invoice]
+    )
+
+    template_path = 'inventory/issuepdf.html'
+    context = {'purx': purx, 'p': p, 'sumation': sumation}
+    response = HttpResponse(content_type='application/pdf')
+    # for downlode
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = 'filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+def Blanceinfo(request):
+    rep=issueInfoM.objects.raw('select x.Item_name ,sum(x.store) as store,sum(issue),(sum(x.store)-sum(issue)) as Balance_Quantity,sum(rate)*(sum(x.store)-sum(issue)) as Balance_Amount from( '
+        'select a.Item_name,sum(a.Quantity) as store,(sum(a.rate*a.Quantity)/sum(a.Quantity)) as rate,0 as issue from insurance_purchageinfom as a '
+        'group by a.Item_name '
+        'UNION '
+        'select b.Item_name,0 as store,0 as rate,sum(b.quantity) as issue from insurance_issueinfom as b '
+        'group by b.Item_name)x '
+        'GROUP by x.Item_name ')

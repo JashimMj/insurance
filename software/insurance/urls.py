@@ -36,17 +36,17 @@ urlpatterns = [
     path('purchange/entry/edit/', views.purchangeEditV, name='purchangeEdit'),
     path('purchange/entry/edit/item/', views.purchangeEdititemV, name='purchangeEdititem'),
     path('purchange/entry/update/', views.purchangeupdateV, name='purchangeupdate'),
-    # path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrentrydelete'),
+    path('purchage/entry/delete/<int:id>/', views.purchangedeleteV, name='purchangedelete'),
     path('Purchage/PDF/', views.PurchagePDFV, name='purchagepdf'),
 
 
     # ############ issue Information #############################
-    # path('purchange/entry/', views.purchangeV, name='purchangeentry'),
-    # path('purchange/entry/save/', views.purchangeSaveV, name='purchangeentrysave'),
+    path('issue/entry/', views.issueV, name='issueentry'),
+    path('issue/entry/save/', views.IssueSaveV, name='issuesave'),
     # # path('hr/entry/edit/<int:id>/', views.hrnameeditV, name='hrentryedit'),
     # # path('hr/entry/update/<int:id>/', views.hrnameupdateV, name='hrentryupdate'),
     # # path('hr/entry/delete/<int:id>/', views.hrnamedeleteV, name='hrentrydelete'),
-    # path('Purchage/PDF/', views.PurchagePDFV, name='purchagepdf'),
+    path('Issue/PDF/', views.issuePDFV, name='issuepdf'),
 
 
 
